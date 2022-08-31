@@ -11,6 +11,6 @@ const movieSchema = new Schema (
       image: String
 });
 
-const apiMovie = mongoose.model('Movies', movieSchema);
+const movieApi = mongoose.model('Movies', movieSchema);
 
-module.exports = apiMovie;
+module.exports = movieApi;

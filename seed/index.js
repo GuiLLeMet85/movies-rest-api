@@ -10,7 +10,7 @@ const movies = [
     director: "Josep",
     duration: 122,
     synopsis: "blablabla pum",
-    image: "https://mundosuperman.com/wp-content/uploads/2020/09/Superman-en-el-cine.jpg"
+    image: "https://es.web.img3.acsta.net/pictures/14/03/06/13/55/345785.jpg"
   },
   {
     title: "Spiderman",
@@ -34,7 +34,7 @@ const movies = [
     director: "Marina",
     duration: 92,
     synopsis: "facha facha facha, obrero",
-    image: "https://pics.filmaffinity.com/Torrente_el_brazo_tonto_de_la_ley-769153589-large.jpg"
+    image: "https://images-2.wuaki.tv/system/artworks/7308/original/torrente-4-lethal-crisis-crisis-letal-1611319727.jpeg"
   }
 ]
 

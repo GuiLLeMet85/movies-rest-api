@@ -1,5 +1,4 @@
 const Movies = require('../models/Movies');
-
 const router = require('express').Router();
 
 // @desc    Get all movies
