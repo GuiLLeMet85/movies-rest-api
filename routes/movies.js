@@ -1,5 +1,6 @@
 const Movies = require('../models/Movies');
 const router = require('express').Router();
+const ErrorResponse = require('../utils/error');
 
 // @desc    Get all movies
 // @route   GET /
@@ -11,16 +12,15 @@ router.get('/', async (req, res, next) => {
 
   try {
     const movies = await Movies.find ({});
-    if (movies.length === 0) {
-      res.status(200).json ({ response: 'No movies found in the database'});
-    } else {
-      res.status(200).json ({data: movies})
-    }
+    if (!movies) {
+      next(new ErrorResponse('No movies found', 404));
+    } res.status(200).json({ data: movies })
   } catch (error) {
-    next(error)
+    next(error);
   }
-
 });
+
+
 
 // @desc    Get single movie
 // @route   GET /:id
@@ -30,10 +30,9 @@ router.get('/:id', async (req, res, next) => {
   try {
     const movie = await Movies.findById(id);
     if (!movie) {
-      res.status(404).json({ response: "Movies not found" });
-    } else {
-      res.status (200).json ({ data: movie})
-    }
+      next (new ErrorResponse (`Movie not found by id: ${id}`, 404));
+    } 
+    res.status(200).json({ data: movie })
   } catch (error) {
     next (error);
   }
@@ -46,7 +45,9 @@ router.post('/', async (req, res, next) => {
   const {title, year, director, duration, synopsis, image} = req.body;
   try {
     const movie = await Movies.create({title, year, director, duration, synopsis, image});
+    if (!movie) {
       res.status(201).json({ data: movie });
+    }
   } catch (error) {
     next (error);
   }
@@ -61,7 +62,7 @@ router.put('/:id', async (req, res, next) => {
   try {
       const movie = await Movies.findById(id);
       if (!movie) {
-        res.status(404).json({ response: "Movie not found"})
+        next (new ErrorResponse(`Movie not found by id: ${id}`,404));
       } else {
       const updatedMovie = await Movies.findByIdAndUpdate(id, {title, year, director, duration, synopsis, image}, {new:true});
       res.status(202).json({data:updatedMovie})
@@ -76,17 +77,14 @@ router.put('/:id', async (req, res, next) => {
 // @route   DELETE /:id
 // @access  Public
 router.delete('/:id', async (req, res, next) => {
-  const {id} = req.params;
+  const {id} = req.params
   try {
-    const movie = await Movies.findById(id);
-    if (!movie) {
-      res.status(404).json({response: "Movie not found"});
-    } else {
-      const deleted = await Movies.findByIdAndDelete(id);
-    }
-  } catch(error) {
-      next(error);
+    const deletedMovie = await Movies.findByIdAndDelete(id)
+    res.status(202).json({data: deletedMovie})
+  } catch (error) {
+    next(error)
   }
+
 });
 
 module.exports = router;
