@@ -20,8 +20,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-
-
 // @desc    Get single movie
 // @route   GET /:id
 // @access  Public
@@ -44,10 +42,8 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   const {title, year, director, duration, synopsis, image} = req.body;
   try {
-    const movie = await Movies.create({title, year, director, duration, synopsis, image});
-    if (!movie) {
-      res.status(201).json({ data: movie });
-    }
+    const newMovie = await Movies.create({title, year, director, duration, synopsis, image});
+      res.status(201).json({ data: newMovie });
   } catch (error) {
     next (error);
   }
